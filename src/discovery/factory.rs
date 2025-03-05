@@ -6,7 +6,6 @@ use alloy::{
     providers::Provider,
     rpc::types::eth::Filter,
     sol_types::SolEvent,
-    transports::Transport,
 };
 
 use crate::{
@@ -34,16 +33,15 @@ impl DiscoverableFactory {
 }
 
 // Returns a vec of empty factories that match one of the Factory interfaces specified by each DiscoverableFactory
-pub async fn discover_factories<T, N, P>(
+pub async fn discover_factories<N, P>(
     factories: Vec<DiscoverableFactory>,
     number_of_amms_threshold: u64,
     provider: P,
     step: u64,
 ) -> Result<Vec<Factory>, AMMError>
 where
-    T: Transport + Clone,
     N: Network,
-    P: Provider<T, N> + Clone,
+    P: Provider<N> + Clone,
 {
     let mut event_signatures = vec![];
 
